@@ -42,7 +42,16 @@ namespace pacfiles
         {
             if (ParameterSetName == "PacFile")
             {
-                PacFunction = File.ReadAllText(PacFile);
+                // This will happily return more than one path, eg if a wildcard is used.
+                // Only the last one is used. TODO: fix this
+                // Some confusing errors can result as there's no validation,
+                // eg Access Denied if a directory is provided
+                // and unexpected identifier for things that aren't pac files
+                var PacPaths = SessionState.Path.GetResolvedPSPathFromPSPath(PacFile);
+                foreach (var Path in PacPaths)
+                {
+                    PacFunction = File.ReadAllText(Path.ProviderPath);
+                }
             }
             pacparser = new pacparser(PacFunction);
         }
