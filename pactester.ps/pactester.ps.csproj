@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PacParser\pacparser.csproj" />
+    <None Update="pactester.psd1" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
 </Project>
