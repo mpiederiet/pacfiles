@@ -19,6 +19,9 @@ namespace pacfiles
             }
         }
 
+        // TODO: Validate this is in dotted decimal format.
+        public string myIpAddress = DnsResolve(Dns.GetHostName());
+
         private Engine engine = new Engine();
 
         private void Init()
@@ -28,7 +31,7 @@ namespace pacfiles
             // isResolvableEx() is defined in Chromium https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/pac_js_library.h
             engine.SetValue("alert", new Action<object>(Console.WriteLine));
             engine.SetValue("dnsResolve", new Func<string, string>(host => DnsResolve(host)));
-            engine.SetValue("myIpAddress", new Func<string>(() => DnsResolve(Dns.GetHostName())));
+            engine.SetValue("myIpAddress", new Func<string>(() => {return myIpAddress;}));
 
             // Javascript helper functions, from Mozilla
             // https://hg.mozilla.org/mozilla-central/raw-file/tip/netwerk/base/ProxyAutoConfig.cpp

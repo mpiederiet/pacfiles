@@ -4,8 +4,10 @@ Read and test proxy autoconfig files with PowerShell.
 
 `Find-ProxyForURL -PacFile .\proxy.pac -Url https://example.com`
 
+`Find-ProxyForURL -PacFile .\proxy.pac -Url https://example.com -MyIPAddress 1.2.3.4`
+
 ## TODO:
 
 - `Get-ProxyForUrl` or similar that returns `FindProxyForURL()` output as addresses- split at semicolons and without 'PROXY' etc.
 
-- `Test-PacFile` to ensure it's reasonably well-formed woudld be good.
+- `Test-PacFile` to ensure it's reasonably well-formed would be good.

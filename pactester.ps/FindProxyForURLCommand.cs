@@ -36,6 +36,11 @@ namespace pacfiles
             Position = 1)]
         new public string Host { get; set; } = null;
 
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        public string MyIPAddress { get; set; } = null;
+
         pacparser pacparser;
 
         protected override void BeginProcessing()
@@ -54,6 +59,10 @@ namespace pacfiles
                 }
             }
             pacparser = new pacparser(PacFunction);
+
+            if (MyIPAddress != null) {
+                pacparser.myIpAddress = MyIPAddress;
+            }
         }
 
         protected override void ProcessRecord()
