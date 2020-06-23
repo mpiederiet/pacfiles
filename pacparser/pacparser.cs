@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using Jint;
 
@@ -22,6 +23,11 @@ namespace pacfiles
         // TODO: Validate this is in dotted decimal format.
         public string myIpAddress = DnsResolve(Dns.GetHostName());
 
+        public string myIpAddressEx = string.Join(";", 
+            Dns.GetHostAddresses(Dns.GetHostName())
+            .Select(x => x.ToString())
+            );
+
         private Engine engine = new Engine();
 
         private void Init()
@@ -32,6 +38,7 @@ namespace pacfiles
             engine.SetValue("alert", new Action<object>(Console.WriteLine));
             engine.SetValue("dnsResolve", new Func<string, string>(host => DnsResolve(host)));
             engine.SetValue("myIpAddress", new Func<string>(() => {return myIpAddress;}));
+            engine.SetValue("myIpAddressEx", new Func<string>(() => { return myIpAddressEx; }));
 
             // Javascript helper functions, from Mozilla
             // https://hg.mozilla.org/mozilla-central/raw-file/tip/netwerk/base/ProxyAutoConfig.cpp
