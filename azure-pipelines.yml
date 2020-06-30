@@ -1,0 +1,49 @@
+# trigger:
+# - master
+
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-latest'
+    mac:
+      imageName: 'macos-latest'
+    windows:
+      imageName: 'windows-latest'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+- task: DotNetCoreCLI@2
+  name: dotnetrestore
+  displayName: dotnet restore
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  name: dotnettest
+  displayName: dotnet test
+  inputs:
+    command: 'test'
+- task: DotNetCoreCLI@2
+  name: dotnetpublish
+  displayName: dotnet publish
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    arguments: '--configuration Release'
+    zipAfterPublish: false
+# - task: PublishBuildArtifacts@1
+#   name: dotnetpublishpacparser
+#   displayName: publish pacparser
+#   inputs:
+#     PathtoPublish: './pacparser/bin/Release/netstandard2.0/publish'
+#     ArtifactName: 'pacparser'
+#     publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   name: dotnetpublishpactester
+#   displayName: publish pactester
+#   inputs:
+#     PathtoPublish: './pactester.ps/bin/Release/netstandard2.0/publish'
+#     ArtifactName: 'pactester.ps'
+#     publishLocation: 'Container'
