@@ -9,6 +9,8 @@ namespace pacfiles
     {
         private static string DnsResolve(string host)
         {
+            // Sometimes GetHostAddresses fails on macOS, particularly in CI 
+            // https://github.com/dotnet/runtime/issues/1488
             IPAddress[] addresses = Dns.GetHostAddresses(host);
             if (addresses.Length >= 0)
             {
