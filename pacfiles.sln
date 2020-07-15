@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pactester", "pactester\pactester.csproj", "{3B278B9A-23F2-4344-B2C9-0029203B8512}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pacparser", "PacParser\pacparser.csproj", "{CE364854-8607-429B-9E3C-87C04EF7BB3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pacparser", "pacparser\pacparser.csproj", "{CE364854-8607-429B-9E3C-87C04EF7BB3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pactester.ps", "pactester.ps\pactester.ps.csproj", "{23E724E3-D33C-46A3-9AD4-7E6302DB79AA}"
 EndProject

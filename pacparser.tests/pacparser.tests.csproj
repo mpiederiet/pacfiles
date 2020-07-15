@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PacParser\pacparser.csproj" />
+    <ProjectReference Include="..\pacparser\pacparser.csproj" />
   </ItemGroup>
 
 </Project>
