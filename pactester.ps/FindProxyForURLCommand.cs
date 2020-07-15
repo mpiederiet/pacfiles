@@ -62,6 +62,7 @@ namespace pacfiles
 
             if (MyIPAddress != null) {
                 pacparser.myIpAddress = MyIPAddress;
+                pacparser.myIpAddressEx = MyIPAddress;
             }
         }
 
