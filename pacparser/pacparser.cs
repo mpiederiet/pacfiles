@@ -38,7 +38,7 @@ namespace pacfiles
         }
 
         // TODO: Validate this is in dotted decimal format.
-        public string myIpAddress = DnsResolve(Dns.GetHostName());
+        public string myIpAddress = DnsResolve(Dns.GetHostName()) ?? "127.0.0.1";
 
         // Find all the IP addresses for localhost. Return value: A semi-colon delimited string containing all IP addresses for localhost (IPv6 and/or IPv4), or an empty string if unable to resolve localhost to an IP address.
         // https://docs.microsoft.com/en-us/windows/win32/winhttp/myipaddressex
