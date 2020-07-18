@@ -49,6 +49,16 @@ namespace pacfiles.tests
 
             Assert.Equal(expectedIp, parser.FindProxyForURL(Url, host));
         }
+        
+        [Theory]
+        [InlineData("127.0.0.1","127.0.0.1")]
+        public void ResolvesAHostEx(string host, string expectedIp)
+        {
+            string pacfunction = "function FindProxyForURL(url, host) {return dnsResolveEx(host)}";
+            parser.Execute(pacfunction);
+
+            Assert.Equal(expectedIp, parser.FindProxyForURL(Url, host));
+        }
 
         [Fact]
         public void FakesMyIpAddress()

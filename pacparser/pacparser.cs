@@ -55,6 +55,7 @@ namespace pacfiles
             // isResolvableEx() is defined in Chromium https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/pac_js_library.h
             engine.SetValue("alert", new Action<object>(Console.WriteLine));
             engine.SetValue("dnsResolve", new Func<string, string>(host => DnsResolve(host)));
+            engine.SetValue("dnsResolveEx", new Func<string, string>(host => DnsResolveEx(host)));
             engine.SetValue("myIpAddress", new Func<string>(() => {return myIpAddress;}));
             engine.SetValue("myIpAddressEx", new Func<string>(() => { return myIpAddressEx; }));
 
