@@ -60,6 +60,28 @@ namespace pacfiles.tests
             Assert.Equal(expectedIp, parser.FindProxyForURL(Url, host));
         }
 
+        [Theory]
+        [InlineData("127.0.0.1","true")]
+        [InlineData("0.0.0.0","false")]
+        public void TestsHostResolution(string host, string expectedResult)
+        {
+            string pacfunction = "function FindProxyForURL(url, host) {return isResolvable(host)}";
+            parser.Execute(pacfunction);
+
+            Assert.Equal(expectedResult, parser.FindProxyForURL(Url, host));
+        }
+
+        [Theory]
+        [InlineData("127.0.0.1","true")]
+        [InlineData("0.0.0.0","false")]
+        public void TestsHostResolutionEx(string host, string expectedResult)
+        {
+            string pacfunction = "function FindProxyForURL(url, host) {return isResolvableEx(host)}";
+            parser.Execute(pacfunction);
+
+            Assert.Equal(expectedResult, parser.FindProxyForURL(Url, host));
+        }
+
         [Fact]
         public void FakesMyIpAddress()
         {

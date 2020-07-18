@@ -37,6 +37,12 @@ namespace pacfiles
             );
         }
 
+        private static bool IsResolvableEx(string host) {
+            // Determines if a given host string can resolve to an IP address.
+            // https://docs.microsoft.com/en-us/windows/win32/winhttp/isresolvableex
+            return !String.IsNullOrEmpty(DnsResolveEx(host));
+        }
+
         // TODO: Validate this is in dotted decimal format.
         public string myIpAddress = DnsResolve(Dns.GetHostName()) ?? "127.0.0.1";
 
@@ -56,6 +62,7 @@ namespace pacfiles
             engine.SetValue("alert", new Action<object>(Console.WriteLine));
             engine.SetValue("dnsResolve", new Func<string, string>(host => DnsResolve(host)));
             engine.SetValue("dnsResolveEx", new Func<string, string>(host => DnsResolveEx(host)));
+            engine.SetValue("isResolvableEx", new Func<string, bool>(host => IsResolvableEx(host)));
             engine.SetValue("myIpAddress", new Func<string>(() => {return myIpAddress;}));
             engine.SetValue("myIpAddressEx", new Func<string>(() => { return myIpAddressEx; }));
 
