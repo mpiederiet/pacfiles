@@ -33,17 +33,17 @@ steps:
     publishWebProjects: false
     arguments: '--configuration Release'
     zipAfterPublish: false
-# - task: PublishBuildArtifacts@1
-#   name: dotnetpublishpacparser
-#   displayName: publish pacparser
-#   inputs:
-#     PathtoPublish: './pacparser/bin/Release/netstandard2.0/publish'
-#     ArtifactName: 'pacparser'
-#     publishLocation: 'Container'
-# - task: PublishBuildArtifacts@1
-#   name: dotnetpublishpactester
-#   displayName: publish pactester
-#   inputs:
-#     PathtoPublish: './pactester.ps/bin/Release/netstandard2.0/publish'
-#     ArtifactName: 'pactester.ps'
-#     publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  name: dotnetpublishpacparser
+  displayName: publish pacparser
+  inputs:
+    PathtoPublish: './pacparser/bin/Release/netstandard2.0/publish'
+    ArtifactName: 'pacparser'
+    publishLocation: 'Container'
+- task: PublishBuildArtifacts@1
+  name: dotnetpublishpactester
+  displayName: publish pactester
+  inputs:
+    PathtoPublish: './pactester.ps/bin/Release/netstandard2.0/publish'
+    ArtifactName: 'pactester.ps'
+    publishLocation: 'Container'
