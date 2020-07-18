@@ -17,20 +17,15 @@ namespace pacfiles
 
         private static string DnsResolve(string host)
         {
+            // Resolves the given DNS hostname into an IP address, and returns it in the dot-separated format as a string.
+            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_(PAC)_file#dnsResolve
             // dnsResolve's failure value is not standardised,
             // fx & chromium return null and IE returns false
             // https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/proxy_resolver_v8.cc#56
             // https://dxr.mozilla.org/mozilla-central/source/netwerk/base/ProxyAutoConfig.cpp#525-527
 
-            IPAddress[] addresses = DnsResolutionHelper(host);
-            if (addresses.Length > 0)
-            {
-                return addresses[0].ToString();
-            }
-            else
-            {
-                return "";
-            }
+            IPAddress address = DnsResolutionHelper(host).FirstOrDefault();
+            return address != null ? address.ToString() : "";
         }
 
         // TODO: Validate this is in dotted decimal format.
