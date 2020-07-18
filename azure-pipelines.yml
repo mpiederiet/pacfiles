@@ -33,16 +33,24 @@ steps:
     publishWebProjects: false
     arguments: '--configuration Release'
     zipAfterPublish: false
+- task: Pester@10
+  name: pester
+  displayName: pester
+  inputs:
+    scriptFolder: './pactester.ps/'
+    resultsFile: '$(System.DefaultWorkingDirectory)/Test-Pester.XML'
+    usePSCore: False
+    ScriptBlock: '"Import-Module ./pactester.ps/bin/Release/netstandard2.0/publish/pactester.psd1"'
 - task: PublishBuildArtifacts@1
-  name: dotnetpublishpacparser
-  displayName: publish pacparser
+  name: publishpacparserartifacts
+  displayName: publish pacparser artifacts
   inputs:
     PathtoPublish: './pacparser/bin/Release/netstandard2.0/publish'
     ArtifactName: 'pacparser'
     publishLocation: 'Container'
 - task: PublishBuildArtifacts@1
-  name: dotnetpublishpactester
-  displayName: publish pactester
+  name: publishpactesterartifacts
+  displayName: publish pactester artifacts
   inputs:
     PathtoPublish: './pactester.ps/bin/Release/netstandard2.0/publish'
     ArtifactName: 'pactester.ps'
