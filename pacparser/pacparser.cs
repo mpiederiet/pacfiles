@@ -28,6 +28,16 @@ namespace pacfiles
             return address != null ? address.ToString() : "";
         }
 
+        private static string DnsResolveEx(string host) {
+            // Resolve a host string to its IP address
+            // Return: A semi-colon delimited string containing IPv6 and IPv4 addresses or an empty string if host is not resolvable.
+            // https://docs.microsoft.com/en-us/windows/win32/winhttp/dnsresolveex
+
+            return String.Join(";", 
+                DnsResolutionHelper(host).Select(x => x.ToString())
+            );
+        }
+
         // TODO: Validate this is in dotted decimal format.
         public string myIpAddress = DnsResolve(Dns.GetHostName());
 
@@ -35,10 +45,7 @@ namespace pacfiles
         // https://docs.microsoft.com/en-us/windows/win32/winhttp/myipaddressex
         // This is like myIpAddress(), but instead of returning a single IP address, it can return multiple IP addresses. It returns a string containing a semi-colon separated list of addresses. On failure it returns an empty string to indicate no results (whereas myIpAddress() returns 127.0.0.1).
         // https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md#resolving-client_s-ip-address-within-a-pac-script-using-myipaddressex
-        public string myIpAddressEx = string.Join(";", 
-            DnsResolutionHelper(Dns.GetHostName())
-            .Select(x => x.ToString())
-            );
+        public string myIpAddressEx = DnsResolveEx(Dns.GetHostName());
 
         private Engine engine = new Engine();
 
