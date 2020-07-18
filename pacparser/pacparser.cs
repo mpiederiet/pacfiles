@@ -24,8 +24,7 @@ namespace pacfiles
             // https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/proxy_resolver_v8.cc#56
             // https://dxr.mozilla.org/mozilla-central/source/netwerk/base/ProxyAutoConfig.cpp#525-527
 
-            IPAddress address = DnsResolutionHelper(host).FirstOrDefault();
-            return address != null ? address.ToString() : "";
+            return DnsResolutionHelper(host).FirstOrDefault()?.ToString();
         }
 
         private static string DnsResolveEx(string host) {
