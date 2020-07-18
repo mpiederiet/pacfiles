@@ -7,12 +7,23 @@ namespace pacfiles
 {
     public class pacparser
     {
+        private static IPAddress[] DnsResolutionHelper(string host) {
+            try {
+                return Dns.GetHostAddresses(host);
+            } catch {
+                return new IPAddress[0];
+            }
+        }
+
         private static string DnsResolve(string host)
         {
-            // Sometimes GetHostAddresses fails on macOS, particularly in CI 
-            // https://github.com/dotnet/runtime/issues/1488
-            IPAddress[] addresses = Dns.GetHostAddresses(host);
-            if (addresses.Length >= 0)
+            // dnsResolve's failure value is not standardised,
+            // fx & chromium return null and IE returns false
+            // https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/proxy_resolver_v8.cc#56
+            // https://dxr.mozilla.org/mozilla-central/source/netwerk/base/ProxyAutoConfig.cpp#525-527
+
+            IPAddress[] addresses = DnsResolutionHelper(host);
+            if (addresses.Length > 0)
             {
                 return addresses[0].ToString();
             }
@@ -25,8 +36,12 @@ namespace pacfiles
         // TODO: Validate this is in dotted decimal format.
         public string myIpAddress = DnsResolve(Dns.GetHostName());
 
+        // Find all the IP addresses for localhost. Return value: A semi-colon delimited string containing all IP addresses for localhost (IPv6 and/or IPv4), or an empty string if unable to resolve localhost to an IP address.
+        // https://docs.microsoft.com/en-us/windows/win32/winhttp/myipaddressex
+        // This is like myIpAddress(), but instead of returning a single IP address, it can return multiple IP addresses. It returns a string containing a semi-colon separated list of addresses. On failure it returns an empty string to indicate no results (whereas myIpAddress() returns 127.0.0.1).
+        // https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md#resolving-client_s-ip-address-within-a-pac-script-using-myipaddressex
         public string myIpAddressEx = string.Join(";", 
-            Dns.GetHostAddresses(Dns.GetHostName())
+            DnsResolutionHelper(Dns.GetHostName())
             .Select(x => x.ToString())
             );
 
