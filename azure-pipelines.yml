@@ -15,12 +15,6 @@ pool:
 
 steps:
 - task: DotNetCoreCLI@2
-  name: dotnetrestore
-  displayName: dotnet restore
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-- task: DotNetCoreCLI@2
   name: dotnettest
   displayName: dotnet test
   inputs:
