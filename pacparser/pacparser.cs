@@ -52,19 +52,35 @@ namespace pacfiles
         // https://chromium.googlesource.com/chromium/src/+/HEAD/net/docs/proxy.md#resolving-client_s-ip-address-within-a-pac-script-using-myipaddressex
         public string myIpAddressEx = DnsResolveEx(Dns.GetHostName());
 
+        public static string sortIPAddressList(string ipAddressList) {
+            // Sorts a list of IP addresses.
+            // https://docs.microsoft.com/en-us/windows/win32/winhttp/sortipaddresslist
+            throw new NotImplementedException();
+        }
+
+        public static bool isInNetEx(string ipAddress, string ipPrefix) {
+            // Determines if an IP address is in a specific subnet.
+            // https://docs.microsoft.com/en-us/windows/win32/winhttp/isinnetex
+            throw new NotImplementedException();
+        }
+
         private Engine engine = new Engine();
 
         private void Init()
         {
             // Helpers not defined in Javascript
-            // TODO: add the IPv6 extension helpers? https://docs.microsoft.com/en-us/windows/win32/winhttp/ipv6-aware-proxy-helper-api-definitions
-            // isResolvableEx() is defined in Chromium https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/services/proxy_resolver/pac_js_library.h
             engine.SetValue("alert", new Action<object>(Console.WriteLine));
             engine.SetValue("dnsResolve", new Func<string, string>(host => DnsResolve(host)));
             engine.SetValue("dnsResolveEx", new Func<string, string>(host => DnsResolveEx(host)));
             engine.SetValue("isResolvableEx", new Func<string, bool>(host => IsResolvableEx(host)));
             engine.SetValue("myIpAddress", new Func<string>(() => {return myIpAddress;}));
-            engine.SetValue("myIpAddressEx", new Func<string>(() => { return myIpAddressEx; }));
+            engine.SetValue("myIpAddressEx", new Func<string>(() => {return myIpAddressEx;}));
+            engine.SetValue("sortIpAddressList", new Func<string, string>(
+                ipAddressList => sortIPAddressList(ipAddressList)
+            ));
+            engine.SetValue("isInNetEx", new Func<string, string, bool>(
+                (address, ipPrefix) => isInNetEx(address, ipPrefix)
+            ));
 
             // Javascript helper functions, from Mozilla
             // https://hg.mozilla.org/mozilla-central/raw-file/tip/netwerk/base/ProxyAutoConfig.cpp
