@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pactester", "pactester\pactester.csproj", "{3B278B9A-23F2-4344-B2C9-0029203B8512}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pacparser", "pacparser\pacparser.csproj", "{CE364854-8607-429B-9E3C-87C04EF7BB3B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pactester.ps", "pactester.ps\pactester.ps.csproj", "{23E724E3-D33C-46A3-9AD4-7E6302DB79AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pacparser.tests", "pacparser.tests\pacparser.tests.csproj", "{B3186A24-B53B-4BB3-A26C-C6725C863AF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pacparser.tests", "pacparser.tests\pacparser.tests.csproj", "{B3186A24-B53B-4BB3-A26C-C6725C863AF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B278B9A-23F2-4344-B2C9-0029203B8512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B278B9A-23F2-4344-B2C9-0029203B8512}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B278B9A-23F2-4344-B2C9-0029203B8512}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B278B9A-23F2-4344-B2C9-0029203B8512}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE364854-8607-429B-9E3C-87C04EF7BB3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE364854-8607-429B-9E3C-87C04EF7BB3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE364854-8607-429B-9E3C-87C04EF7BB3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
