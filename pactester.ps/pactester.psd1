@@ -33,7 +33,7 @@ Copyright = '(c) theaquamarine. All rights reserved.'
 Description = 'A module for working with proxy auto-config files'
 
 # Minimum version of the PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '5.1'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -95,10 +95,10 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('proxy','pac','findproxyforurl')
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/theaquamarine/pacfiles/blob/main/LICENSE.txt'
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/theaquamarine/pacfiles'
