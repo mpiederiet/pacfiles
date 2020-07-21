@@ -2,6 +2,12 @@
 
 Read and test proxy autoconfig files with PowerShell.
 
+## Installation
+
+pactester is available from the PowerShell Gallery, and can be installed using `Install-Module -Name pactester`
+
+## Usage
+
 `Find-ProxyForURL -PacFile .\proxy.pac -Url https://example.com`
 
 `Find-ProxyForURL -PacFile .\proxy.pac -Url https://example.com -MyIPAddress 1.2.3.4`
