@@ -39,9 +39,23 @@ namespace pacfiles.tests
         [InlineData("2001:db8:ffff:ffff:ffff:ffff:ffff:ffff", "3ffe:8311:ffff::/48", false)]
         [InlineData("1.1.1.1", "3ffe:8311:ffff::/48", false)] // Test mismatched prefix & address types
         [InlineData("2001:db8:ffff:ffff:ffff:ffff:ffff:ffff", "198.95.0.0/16", false)] // Test mismatched prefix & address types
-        public void TestsIpIsInNetEx(string ipaddress, string ipprefix, bool expectedResult)
+        public void TestsIpIsInNetEx(string ipAddress, string ipPrefix, bool expectedResult)
         {
-            Assert.Equal(expectedResult, pacparser.isInNetEx(ipaddress, ipprefix));
+            Assert.Equal(expectedResult, pacparser.isInNetEx(ipAddress, ipPrefix));
+        }
+
+        [Theory(Skip = "Not implemented")]
+        // Test cases from https://docs.microsoft.com/en-us/windows/win32/winhttp/sortipaddresslist
+        [InlineData("2001:4898:28:3:201:2ff:feea:fc14;fe80::5efe:157.59.139.22",
+            "fe80::5efe:157.59.139.22;2001:4898:28:3:201:2ff:feea:fc14")]
+        [InlineData("157.59.139.22;fe80::5efe:157.59.139.22",
+            "fe80::5efe:157.59.139.22;157.59.139.22")]
+        [InlineData("2001:4898:28:3:201:2ff:feea:fc14;157.59.139.22;fe80::5efe:157.59.139.22",
+            "fe80::5efe:157.59.139.22;2001:4898:28:3:201:2ff:feea:fc14;157.59.139.22")]
+        [InlineData("unsortable list returns empty string", "")]
+        public void SortIPAddressList(string ipAddressList, string expectedResult)
+        {
+            Assert.Equal(expectedResult, pacparser.sortIPAddressList(ipAddressList));
         }
     }
 
@@ -133,10 +147,10 @@ namespace pacfiles.tests
         [InlineData("2001:db8:ffff:ffff:ffff:ffff:ffff:ffff", "3ffe:8311:ffff::/48", "false")]
         [InlineData("1.1.1.1", "3ffe:8311:ffff::/48", "false")] // Test mismatched prefix & address types
         [InlineData("2001:db8:ffff:ffff:ffff:ffff:ffff:ffff", "198.95.0.0/16", "false")] // Test mismatched prefix & address types
-        public void TestsIpIsInNetEx(string ipaddress, string ipprefix, string expectedResult)
+        public void TestsIpIsInNetEx(string ipAddress, string ipPrefix, string expectedResult)
         {
             string pacfunction = string.Format(
-                "function FindProxyForURL(url, host) {{return isInNetEx(\"{0}\", \"{1}\")}}", ipaddress, ipprefix
+                "function FindProxyForURL(url, host) {{return isInNetEx(\"{0}\", \"{1}\")}}", ipAddress, ipPrefix
                 );
             parser.Execute(pacfunction);
             Assert.Equal(expectedResult, parser.FindProxyForURL(Url, host));
