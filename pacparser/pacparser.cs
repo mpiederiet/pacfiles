@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using Jint;
 
 namespace pacfiles
@@ -61,7 +62,85 @@ namespace pacfiles
         public static bool isInNetEx(string ipAddress, string ipPrefix) {
             // Determines if an IP address is in a specific subnet.
             // https://docs.microsoft.com/en-us/windows/win32/winhttp/isinnetex
-            throw new NotImplementedException();
+            // Thanks to https://github.com/LordChariot/ProxyAutoConfigDebugger for the code!
+           if (ipAddress == null) { return false; }
+            if (ipPrefix == null) { return false; }
+            if (!IPAddress.TryParse(ipAddress, out IPAddress address))
+            {
+                return false;
+            }
+            int prefixSeparatorIndex = ipPrefix.IndexOf("/");
+            if (prefixSeparatorIndex < 0)
+            {
+                return false;
+            }
+            string[] parts = ipPrefix.Split(new char[] { '/' });
+            if (parts.Length != 2 || parts[0] == null || parts[0].Length == 0 ||
+                parts[1] == null || parts[1].Length == 0 || parts[1].Length > 2)
+            {
+                return false;
+            }
+            if (!IPAddress.TryParse(parts[0], out IPAddress prefixAddress))
+            {
+                return false;
+            }
+            if (!Int32.TryParse(parts[1], out int prefixLength))
+            {
+                return false;
+            }
+            if (address.AddressFamily != prefixAddress.AddressFamily)
+            {
+                return false;
+            }
+            if (
+                ((address.AddressFamily == AddressFamily.InterNetworkV6) && (prefixLength < 1 || prefixLength > 64)) ||
+                ((address.AddressFamily == AddressFamily.InterNetwork) && (prefixLength < 1 || prefixLength > 32))
+                )
+            {
+                return false;
+            }
+            byte[] prefixAddressBytes = prefixAddress.GetAddressBytes();
+            byte prefixBytes = (byte)(prefixLength / 8);
+            byte prefixExtraBits = (byte)(prefixLength % 8);
+            byte i = prefixBytes;
+            if (prefixExtraBits != 0)
+            {
+                if ((0xFF & (prefixAddressBytes[prefixBytes] << prefixExtraBits)) != 0)
+                {
+                    return false;
+                }
+                i++;
+            }
+            int MaxBytes = (prefixAddress.AddressFamily == AddressFamily.InterNetworkV6) ? 16 : 4;
+            while (i < MaxBytes)
+            {
+                if (prefixAddressBytes[i++] != 0)
+                {
+                    return false;
+                }
+            }
+            byte[] addressBytes = address.GetAddressBytes();
+            for (i = 0; i < prefixBytes; i++)
+            {
+                if (addressBytes[i] != prefixAddressBytes[i])
+                {
+                    return false;
+                }
+            }
+            if (prefixExtraBits > 0)
+            {
+                byte addrbyte = addressBytes[prefixBytes];
+                byte prefixbyte = prefixAddressBytes[prefixBytes];
+
+                //Clear 8 - Remaining bits from the addr byte
+                addrbyte = (byte)(addrbyte >> (8 - prefixExtraBits));
+                addrbyte = (byte)(addrbyte << (8 - prefixExtraBits));
+                if (addrbyte != prefixbyte)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private Engine engine = new Engine();
